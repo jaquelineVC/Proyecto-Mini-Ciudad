@@ -1,0 +1,15 @@
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\bin\Debug\net8.0\MiniCiudad.Application.deps.json
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\bin\Debug\net8.0\MiniCiudad.Application.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\bin\Debug\net8.0\MiniCiudad.Application.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\bin\Debug\net8.0\MiniCiudad.Domain.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\bin\Debug\net8.0\MiniCiudad.Domain.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.csproj.AssemblyReference.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.AssemblyInfoInputs.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.AssemblyInfo.cs
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.csproj.CoreCompileInputs.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiud.52E86F17.Up2Date
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\refint\MiniCiudad.Application.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\ref\MiniCiudad.Application.dll

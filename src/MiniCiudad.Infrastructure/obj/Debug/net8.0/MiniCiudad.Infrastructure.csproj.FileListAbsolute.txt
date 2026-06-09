@@ -1,0 +1,17 @@
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Infrastructure.deps.json
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Infrastructure.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Infrastructure.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Application.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Domain.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Application.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\bin\Debug\net8.0\MiniCiudad.Domain.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.csproj.AssemblyReference.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.AssemblyInfoInputs.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.AssemblyInfo.cs
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiud.25A3EF59.Up2Date
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\refint\MiniCiudad.Infrastructure.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.pdb
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\ref\MiniCiudad.Infrastructure.dll
