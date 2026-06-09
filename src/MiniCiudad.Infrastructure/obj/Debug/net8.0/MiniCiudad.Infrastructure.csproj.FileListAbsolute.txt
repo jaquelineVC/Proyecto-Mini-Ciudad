@@ -15,3 +15,4 @@ D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debu
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\refint\MiniCiudad.Infrastructure.dll
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.pdb
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\ref\MiniCiudad.Infrastructure.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Infrastructure\obj\Debug\net8.0\MiniCiudad.Infrastructure.sourcelink.json

@@ -13,3 +13,4 @@ D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\n
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\refint\MiniCiudad.Application.dll
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.pdb
 D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\ref\MiniCiudad.Application.dll
+D:\Tecno\Inteligencia Artificial\Proyecto\src\MiniCiudad.Application\obj\Debug\net8.0\MiniCiudad.Application.sourcelink.json

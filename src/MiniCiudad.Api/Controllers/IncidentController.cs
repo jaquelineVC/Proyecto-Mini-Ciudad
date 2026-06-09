@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniCiudad.Application.DTOs;
 using MiniCiudad.Application.UseCases;
+using MiniCiudad.Domain.Interfaces;
 
 namespace MiniCiudad.Api.Controllers;
 
@@ -9,10 +10,12 @@ namespace MiniCiudad.Api.Controllers;
 public class IncidentController : ControllerBase
 {
     private readonly IncidentUseCase _incidentUseCase;
+    private readonly IGraphRepository _graphRepository;
 
-    public IncidentController(IncidentUseCase incidentUseCase)
+    public IncidentController(IncidentUseCase incidentUseCase, IGraphRepository graphRepository)
     {
         _incidentUseCase = incidentUseCase;
+        _graphRepository = graphRepository;
     }
 
     [HttpPost]
@@ -22,6 +25,23 @@ public class IncidentController : ControllerBase
     {
         try
         {
+            if (request.Scope == "SingleSegment")
+            {
+                var edgeExists = _graphRepository.GetAllEdges()
+                    .Any(e => e.FromNodeId == request.FromNodeId && e.ToNodeId == request.ToNodeId);
+
+                if (!edgeExists)
+                    return BadRequest($"No existe una calle directa de {request.FromNodeId} a {request.ToNodeId}. Verifica la dirección de la calle.");
+            }
+            else if (request.Scope == "FullStreet")
+            {
+                var streetExists = _graphRepository.GetAllStreetNames()
+                    .Any(s => s == request.StreetName);
+
+                if (!streetExists)
+                    return BadRequest($"No existe la calle '{request.StreetName}'.");
+            }
+
             var result = _incidentUseCase.ReportIncident(request);
             return Ok(result);
         }
@@ -45,5 +65,13 @@ public class IncidentController : ControllerBase
     {
         var incidents = _incidentUseCase.GetActiveIncidents();
         return Ok(incidents);
+    }
+
+    [HttpGet("streets")]
+    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+    public IActionResult GetStreetNames()
+    {
+        var streets = _graphRepository.GetAllStreetNames();
+        return Ok(streets);
     }
 }

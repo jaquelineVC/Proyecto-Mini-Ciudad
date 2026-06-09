@@ -18,11 +18,27 @@ public class IncidentUseCase
         if (!Enum.TryParse<IncidentType>(request.Type, out var incidentType))
             throw new ArgumentException($"Tipo de incidencia inválido: {request.Type}");
 
+        if (!Enum.TryParse<IncidentScope>(request.Scope, out var incidentScope))
+            throw new ArgumentException($"Alcance de incidencia inválido: {request.Scope}");
+
+        if (incidentScope == IncidentScope.SingleSegment)
+        {
+            if (string.IsNullOrEmpty(request.FromNodeId) || string.IsNullOrEmpty(request.ToNodeId))
+                throw new ArgumentException("Se requiere FromNodeId y ToNodeId para un tramo específico.");
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(request.StreetName))
+                throw new ArgumentException("Se requiere StreetName para una calle completa.");
+        }
+
         var incident = new Incident(
+            incidentType,
+            incidentScope,
+            request.Description,
             request.FromNodeId,
             request.ToNodeId,
-            incidentType,
-            request.Description
+            request.StreetName
         );
 
         _graphRepository.ApplyIncident(incident);
@@ -43,10 +59,12 @@ public class IncidentUseCase
     private static IncidentResponseDto MapToDto(Incident incident) => new()
     {
         Id = incident.Id,
+        Type = incident.Type.ToString(),
+        Scope = incident.Scope.ToString(),
+        Description = incident.Description,
         FromNodeId = incident.FromNodeId,
         ToNodeId = incident.ToNodeId,
-        Type = incident.Type.ToString(),
-        Description = incident.Description,
+        StreetName = incident.StreetName,
         ReportedAt = incident.ReportedAt
     };
 }

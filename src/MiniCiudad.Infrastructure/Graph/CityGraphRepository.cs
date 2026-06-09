@@ -5,21 +5,25 @@ namespace MiniCiudad.Infrastructure.Graph;
 
 public class CityGraphRepository : IGraphRepository
 {
-    // Nodos: array 2D de 7 columnas x 4 filas = 28 nodos
     private readonly CityNode[,] _nodes;
-
-    // Aristas: lista encadenada representada como LinkedList
     private readonly LinkedList<CityEdge> _edges;
-
-    // Incidencias activas
     private readonly Dictionary<Guid, Incident> _incidents;
-
-    // Pesos base de tráfico por arista (fromNodeId -> toNodeId -> peso)
     private readonly Dictionary<string, Dictionary<string, int>> _baseWeights;
 
     private const int ROWS = 4;
     private const int COLS = 7;
     private const int TRAFFIC_MULTIPLIER = 5;
+
+    // Nombres de calles
+    private static readonly string[] AvenueNames =
+    [
+        "Av. 1", "Av. 2", "Av. 3", "Av. 4", "Av. 5", "Av. 6", "Av. 7"
+    ];
+
+    private static readonly string[] StreetNames =
+    [
+        "Calle 1", "Calle 2", "Calle 3", "Calle 4"
+    ];
 
     public CityGraphRepository()
     {
@@ -41,18 +45,12 @@ public class CityGraphRepository : IGraphRepository
 
     private void InitializeEdges()
     {
-        // Calles VERTICALES (sentido por columna)
-        // Col 0: ↓ baja (fila 0 -> fila 1 -> fila 2 -> fila 3)
-        // Col 1: ↑ sube (fila 3 -> fila 2 -> fila 1 -> fila 0)
-        // Col 2: ↓ baja
-        // Col 3: ↑ sube
-        // Col 4: ↓ baja
-        // Col 5: ↑ sube
-        // Col 6: ↓ baja
-
+        // Calles VERTICALES (Avenidas)
+        // Columnas pares bajan ↓, impares suben ↑
         for (int col = 0; col < COLS; col++)
         {
-            bool goesDown = col % 2 == 0; // cols pares bajan, impares suben
+            bool goesDown = col % 2 == 0;
+            string avenueName = AvenueNames[col];
 
             for (int row = 0; row < ROWS - 1; row++)
             {
@@ -64,19 +62,16 @@ public class CityGraphRepository : IGraphRepository
                     ? _nodes[row + 1, col].Id
                     : _nodes[ROWS - 2 - row, col].Id;
 
-                AddEdge(from, to);
+                AddEdge(from, to, avenueName);
             }
         }
 
-        // Calles HORIZONTALES (sentido por fila)
-        // Fila 0: → derecha
-        // Fila 1: ← izquierda
-        // Fila 2: → derecha
-        // Fila 3: ← izquierda
-
+        // Calles HORIZONTALES
+        // Filas pares van a la derecha →, impares a la izquierda ←
         for (int row = 0; row < ROWS; row++)
         {
-            bool goesRight = row % 2 == 0; // filas pares van a la derecha, impares a la izquierda
+            bool goesRight = row % 2 == 0;
+            string streetName = StreetNames[row];
 
             for (int col = 0; col < COLS - 1; col++)
             {
@@ -88,14 +83,14 @@ public class CityGraphRepository : IGraphRepository
                     ? _nodes[row, col + 1].Id
                     : _nodes[row, COLS - 2 - col].Id;
 
-                AddEdge(from, to);
+                AddEdge(from, to, streetName);
             }
         }
     }
 
-    private void AddEdge(string from, string to, int weight = 1)
+    private void AddEdge(string from, string to, string streetName, int weight = 1)
     {
-        _edges.AddLast(new CityEdge(from, to, weight));
+        _edges.AddLast(new CityEdge(from, to, streetName, weight));
 
         if (!_baseWeights.ContainsKey(from))
             _baseWeights[from] = new Dictionary<string, int>();
@@ -119,23 +114,56 @@ public class CityGraphRepository : IGraphRepository
         return _edges.Where(e => e.FromNodeId == nodeId && !e.IsBlocked);
     }
 
+    public IEnumerable<string> GetAllStreetNames()
+    {
+        return AvenueNames.Concat(StreetNames).Order();
+    }
+
     public void ApplyIncident(Incident incident)
     {
         _incidents[incident.Id] = incident;
 
+        if (incident.Scope == IncidentScope.FullStreet)
+        {
+            ApplyToFullStreet(incident);
+        }
+        else
+        {
+            ApplyToSegment(incident.FromNodeId!, incident.ToNodeId!, incident.Type);
+        }
+    }
+
+    private void ApplyToFullStreet(Incident incident)
+    {
+        var affectedEdges = _edges.Where(e => e.StreetName == incident.StreetName);
+
+        foreach (var edge in affectedEdges)
+        {
+            if (incident.Type == IncidentType.RoadClosed)
+            {
+                edge.IsBlocked = true;
+            }
+            else if (incident.Type == IncidentType.TrafficJam)
+            {
+                edge.Weight = _baseWeights[edge.FromNodeId][edge.ToNodeId] * TRAFFIC_MULTIPLIER;
+            }
+        }
+    }
+
+    private void ApplyToSegment(string fromNodeId, string toNodeId, IncidentType type)
+    {
         var edge = _edges.FirstOrDefault(e =>
-            e.FromNodeId == incident.FromNodeId &&
-            e.ToNodeId == incident.ToNodeId);
+            e.FromNodeId == fromNodeId && e.ToNodeId == toNodeId);
 
         if (edge == null) return;
 
-        if (incident.Type == IncidentType.RoadClosed)
+        if (type == IncidentType.RoadClosed)
         {
             edge.IsBlocked = true;
         }
-        else if (incident.Type == IncidentType.TrafficJam)
+        else if (type == IncidentType.TrafficJam)
         {
-            edge.Weight = _baseWeights[incident.FromNodeId][incident.ToNodeId] * TRAFFIC_MULTIPLIER;
+            edge.Weight = _baseWeights[fromNodeId][toNodeId] * TRAFFIC_MULTIPLIER;
         }
     }
 
@@ -143,14 +171,26 @@ public class CityGraphRepository : IGraphRepository
     {
         if (!_incidents.TryGetValue(incidentId, out var incident)) return;
 
-        var edge = _edges.FirstOrDefault(e =>
-            e.FromNodeId == incident.FromNodeId &&
-            e.ToNodeId == incident.ToNodeId);
-
-        if (edge != null)
+        if (incident.Scope == IncidentScope.FullStreet)
         {
-            edge.IsBlocked = false;
-            edge.Weight = _baseWeights[incident.FromNodeId][incident.ToNodeId];
+            var affectedEdges = _edges.Where(e => e.StreetName == incident.StreetName);
+            foreach (var edge in affectedEdges)
+            {
+                edge.IsBlocked = false;
+                edge.Weight = _baseWeights[edge.FromNodeId][edge.ToNodeId];
+            }
+        }
+        else
+        {
+            var edge = _edges.FirstOrDefault(e =>
+                e.FromNodeId == incident.FromNodeId &&
+                e.ToNodeId == incident.ToNodeId);
+
+            if (edge != null)
+            {
+                edge.IsBlocked = false;
+                edge.Weight = _baseWeights[incident.FromNodeId!][incident.ToNodeId!];
+            }
         }
 
         _incidents.Remove(incidentId);
