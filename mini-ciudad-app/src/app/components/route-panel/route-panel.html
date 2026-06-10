@@ -1,0 +1,27 @@
+<div class="panel">
+  <h3>🗺️ Rutas Calculadas</h3>
+
+  @if (routes.length === 0) {
+    <p class="empty">Selecciona origen y destino en el mapa para calcular rutas.</p>
+  }
+
+  @if (fromNodeId && toNodeId && routes.length > 0) {
+    <p class="summary">
+      De <strong>{{ fromNodeId }}</strong> a <strong>{{ toNodeId }}</strong>
+    </p>
+  }
+
+  @for (route of routes; track route.rank) {
+    <div class="route-card" [style.border-left-color]="getRouteColor(route.rank)">
+      <div class="route-header">
+        <span class="route-icon">{{ getRouteIcon(route.rank) }}</span>
+        <div>
+          <strong>{{ getRouteLabel(route.rank) }}</strong>
+          <span class="route-cost">Costo: {{ route.totalCost }}</span>
+        </div>
+      </div>
+      <p class="route-path">{{ formatPath(route.nodeIds) }}</p>
+      <span class="route-hops">{{ route.nodeIds.length - 1 }} tramos</span>
+    </div>
+  }
+</div>

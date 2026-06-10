@@ -1,0 +1,46 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>🗺️ Mini Ciudad</h1>
+    <p>Selecciona dos nodos en el mapa para calcular las rutas más rápidas</p>
+  </header>
+
+  <div class="app-body">
+    <div class="map-section">
+      <div class="map-toolbar">
+        <div class="selection-info">
+          @if (cityGrid?.selectedFrom) {
+            <span class="tag green">Origen: {{ cityGrid.selectedFrom?.id }}</span>
+          }
+          @if (cityGrid?.selectedTo) {
+            <span class="tag red">Destino: {{ cityGrid.selectedTo?.id }}</span>
+          }
+          @if (isCalculating) {
+            <span class="tag blue">Calculando...</span>
+          }
+          @if (errorMessage) {
+            <span class="tag error">{{ errorMessage }}</span>
+          }
+        </div>
+        <button class="btn-clear" (click)="clearAll()">🔄 Limpiar</button>
+      </div>
+
+      <app-city-grid
+        #cityGrid
+        (nodeSelected)="onNodeSelected()">
+      </app-city-grid>
+    </div>
+
+    <div class="side-panel">
+      <app-route-panel
+        [routes]="routes"
+        [fromNodeId]="fromNodeId"
+        [toNodeId]="toNodeId">
+      </app-route-panel>
+
+      <app-incident-panel
+        #incidentPanel
+        (incidentChanged)="onIncidentChanged()">
+      </app-incident-panel>
+    </div>
+  </div>
+</div>

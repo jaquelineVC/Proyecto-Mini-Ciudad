@@ -1,0 +1,73 @@
+<div class="grid-container">
+  <svg
+    [attr.width]="getSvgWidth()"
+    [attr.height]="getSvgHeight()"
+    class="city-svg">
+
+    <defs>
+      <marker id="arrow-default" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8" />
+      </marker>
+      <marker id="arrow-blocked" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#ef4444" />
+      </marker>
+      <marker id="arrow-traffic" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#f97316" />
+      </marker>
+      <marker id="arrow-route1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#3b82f6" />
+      </marker>
+      <marker id="arrow-route2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#f97316" />
+      </marker>
+    </defs>
+
+    <!-- Aristas -->
+    @for (edge of edges; track edge.fromNodeId + edge.toNodeId) {
+      <path
+        [attr.d]="getArrowPoints(edge)"
+        [attr.stroke]="getRouteEdgeColor(edge)"
+        [attr.stroke-width]="getEdgeWidth(edge)"
+        [attr.marker-end]="'url(#' + getArrowMarkerId(edge) + ')'"
+        [attr.stroke-dasharray]="edge.isBlocked ? '6,4' : 'none'"
+        fill="none"
+        class="edge" />
+    }
+
+    <!-- Nodos -->
+    @for (node of nodes; track node.id) {
+      <g
+        [attr.transform]="'translate(' + getNodeX(node.col) + ',' + getNodeY(node.row) + ')'"
+        class="node"
+        (click)="onNodeClick(node)"
+        (keydown.enter)="onNodeClick(node)"
+        (keydown.space)="onNodeClick(node)"
+        [attr.tabindex]="0"
+        role="button"
+        [attr.aria-label]="'Nodo ' + node.row + ',' + node.col">
+        <circle
+          [attr.r]="NODE_RADIUS"
+          [attr.fill]="getNodeColor(node)"
+          stroke="#fff"
+          stroke-width="2" />
+        <text
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="white"
+          font-size="11"
+          font-weight="bold">
+          {{node.row}},{{node.col}}
+        </text>
+      </g>
+    }
+  </svg>
+
+  <!-- Leyenda -->
+  <div class="legend">
+    <span class="legend-item"><span class="dot green"></span> Origen</span>
+    <span class="legend-item"><span class="dot red"></span> Destino</span>
+    <span class="legend-item"><span class="dot blue"></span> Ruta 1</span>
+    <span class="legend-item"><span class="dot orange"></span> Ruta 2 / Tráfico</span>
+    <span class="legend-item"><span class="dot gray"></span> Bloqueada</span>
+  </div>
+</div>

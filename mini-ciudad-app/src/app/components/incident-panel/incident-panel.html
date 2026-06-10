@@ -1,0 +1,94 @@
+<div class="panel">
+  <h3>🚨 Reportar Incidencia</h3>
+
+  <div class="form-group">
+    <label for="incidentScope">Alcance</label>
+    <select id="incidentScope" [(ngModel)]="scope" name="scope" (ngModelChange)="onScopeChange()">
+      <option value="SingleSegment">Tramo específico</option>
+      <option value="FullStreet">Calle / Avenida completa</option>
+    </select>
+  </div>
+
+  @if (scope === 'SingleSegment') {
+    <div class="form-group">
+      <label for="fromNodeId">Desde nodo</label>
+      <select [(ngModel)]="form.fromNodeId" name="fromNodeId" id="fromNodeId">
+        <option value="">-- Seleccionar --</option>
+        @for (node of nodes; track node.id) {
+          <option [value]="node.id">{{ node.row }},{{ node.col }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="toNodeId">Hasta nodo</label>
+      <select [(ngModel)]="form.toNodeId" name="toNodeId" id="toNodeId">
+        <option value="">-- Seleccionar --</option>
+        @for (node of nodes; track node.id) {
+          <option [value]="node.id">{{ node.row }},{{ node.col }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  @if (scope === 'FullStreet') {
+    <div class="form-group">
+      <label for="streetName">Calle / Avenida</label>
+      <select [(ngModel)]="form.streetName" name="streetName" id="streetName">
+        <option value="">-- Seleccionar --</option>
+        @for (street of streetNames; track street) {
+          <option [value]="street">{{ street }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  <div class="form-group">
+    <label for="incidentType">Tipo</label>
+    <select [(ngModel)]="form.type" name="type" id="incidentType">
+      <option value="RoadClosed">🚫 Calle cerrada</option>
+      <option value="TrafficJam">🚦 Tráfico</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Descripción</label>
+    <input
+      [(ngModel)]="form.description"
+      name="description"
+      id="description"
+      type="text"
+      placeholder="Ej: Accidente en la esquina..." />
+  </div>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  @if (successMessage) {
+    <p class="success">{{ successMessage }}</p>
+  }
+
+  <button class="btn-report" (click)="reportIncident()">Reportar</button>
+
+  <h3>📋 Incidencias Activas</h3>
+
+  @if (incidents.length === 0) {
+    <p class="empty">Sin incidencias activas.</p>
+  }
+
+  @for (incident of incidents; track incident.id) {
+    <div class="incident-card" [class.blocked]="incident.type === 'RoadClosed'">
+      <div class="incident-info">
+        <span class="incident-icon">{{ getIncidentIcon(incident.type) }}</span>
+        <div>
+          <strong>{{ getIncidentLabel(incident.type) }}</strong>
+          <p>{{ getIncidentLocation(incident) }}</p>
+          <small class="scope-badge">{{ getScopeLabel(incident.scope) }}</small>
+          <small>{{ incident.description }}</small>
+        </div>
+      </div>
+      <button class="btn-remove" (click)="removeIncident(incident.id)">✕</button>
+    </div>
+  }
+</div>
