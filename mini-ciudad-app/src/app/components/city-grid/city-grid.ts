@@ -63,20 +63,20 @@ export class CityGridComponent implements OnInit {
     }
   }
 
-  getNodeX(col: number): number {
-    return (col + 1) * this.CELL_SIZE;
-  }
-
-  getNodeY(row: number): number {
-    return (row + 1) * this.CELL_SIZE;
-  }
-
   getSvgWidth(): number {
-    return (this.COLS + 1) * this.CELL_SIZE;
+    return (this.COLS + 1) * this.CELL_SIZE + 40;
   }
 
   getSvgHeight(): number {
-    return (this.ROWS + 1) * this.CELL_SIZE;
+    return (this.ROWS + 1) * this.CELL_SIZE + 20;
+  }
+
+  getNodeX(col: number): number {
+    return (col + 1) * this.CELL_SIZE + 20;
+  }
+
+  getNodeY(row: number): number {
+    return (row + 1) * this.CELL_SIZE + 20;
   }
 
   getNodeColor(node: CityNode): string {
@@ -150,4 +150,20 @@ export class CityGridComponent implements OnInit {
     if (edge.weight > 1) return 'arrow-traffic';
     return 'arrow-default';
   }
+
+  getAvenueName(col: number): string {
+    const names = [
+      'Av. Juárez', 'Av. Hidalgo', 'Av. Morelos',
+      'Av. Reforma', 'Av. Madero', 'Av. Zaragoza', 'Av. Independencia'
+    ];
+    return names[col];
+  }
+
+  getStreetName(row: number): string {
+    const names = [
+      'Calle Libertad', 'Calle Aldama', 'Calle Allende', 'Calle Guerrero'
+    ];
+    return names[row];
+  }
+
 }

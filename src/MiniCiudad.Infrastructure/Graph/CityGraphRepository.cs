@@ -17,12 +17,21 @@ public class CityGraphRepository : IGraphRepository
     // Nombres de calles
     private static readonly string[] AvenueNames =
     [
-        "Av. 1", "Av. 2", "Av. 3", "Av. 4", "Av. 5", "Av. 6", "Av. 7"
+        "Av. Juárez",        // Col 0 ↓
+        "Av. Hidalgo",       // Col 1 ↑
+        "Av. Morelos",       // Col 2 ↓
+        "Av. Reforma",       // Col 3 ↑
+        "Av. Madero",        // Col 4 ↓
+        "Av. Zaragoza",      // Col 5 ↑
+        "Av. Independencia"  // Col 6 ↓
     ];
 
     private static readonly string[] StreetNames =
     [
-        "Calle 1", "Calle 2", "Calle 3", "Calle 4"
+        "Calle Libertad",   // Fila 0 →
+        "Calle Aldama",     // Fila 1 ←
+        "Calle Allende",    // Fila 2 →
+        "Calle Guerrero"    // Fila 3 ←
     ];
 
     public CityGraphRepository()
